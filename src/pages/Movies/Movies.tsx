@@ -3,8 +3,8 @@ import { Container } from '@mui/material'
 import SearchInput from '@src/components/SearchInput'
 
 const Movies: FC = () => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
+  const handleChange = (value: string) => {
+    console.log(value)
   }
 
   return (

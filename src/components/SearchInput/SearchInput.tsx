@@ -1,19 +1,35 @@
-import { FC } from 'react'
-import { Box, TextField, InputAdornment } from '@mui/material'
+import { FC, useState, ChangeEvent } from 'react'
+import { TextField, InputAdornment } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
+import { ClearInputAdornment, SearchInputBox } from './styles'
 
 interface Props {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleChange: (value: string) => void
 }
 
 const SearchInput: FC<Props> = ({ handleChange }) => {
+  const [isClearIcon, setisClearIcon] = useState<boolean>(false)
+  const [value, setValue] = useState<string>('')
+
+  const onTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+    handleChange(event.target.value)
+    event.target.value ? setisClearIcon(true) : setisClearIcon(false)
+  }
+
+  const handleClick = () => {
+    setValue('')
+    setisClearIcon(!isClearIcon)
+  }
+
   return (
-    <Box>
+    <SearchInputBox>
       <TextField
         size="small"
         variant="outlined"
-        onChange={handleChange}
+        onChange={onTextChange}
+        value={value}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -21,17 +37,13 @@ const SearchInput: FC<Props> = ({ handleChange }) => {
             </InputAdornment>
           ),
           endAdornment: (
-            <InputAdornment
-              position="end"
-              // style={{ display: showClearIcon }}
-              // onClick={handleClick}
-            >
-              <ClearIcon />
-            </InputAdornment>
+            <ClearInputAdornment position="end" onClick={handleClick}>
+              {isClearIcon && <ClearIcon />}
+            </ClearInputAdornment>
           ),
         }}
       />
-    </Box>
+    </SearchInputBox>
   )
 }
 
