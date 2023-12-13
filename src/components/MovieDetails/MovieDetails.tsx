@@ -9,7 +9,7 @@ interface Props {
   vote_average: number
 }
 
-const MovieCard: FC<Props> = ({
+const MovieDetails: FC<Props> = ({
   title,
   release_date,
   poster_path,
@@ -27,4 +27,4 @@ const MovieCard: FC<Props> = ({
   )
 }
 
-export default MovieCard
+export default MovieDetails
