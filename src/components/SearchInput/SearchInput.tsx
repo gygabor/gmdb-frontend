@@ -5,16 +5,17 @@ import SearchIcon from '@mui/icons-material/Search'
 import { ClearInputAdornment, SearchInputBox } from './styles'
 
 interface Props {
-  handleChange: (value: string) => void
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>
+  error: boolean
 }
 
-const SearchInput: FC<Props> = ({ handleChange }) => {
+const SearchInput: FC<Props> = ({ setSearchValue, error }) => {
   const [isClearIcon, setisClearIcon] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
   const onTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value)
     setValue(event.target.value)
-    handleChange(event.target.value)
     event.target.value ? setisClearIcon(true) : setisClearIcon(false)
   }
 
@@ -30,6 +31,7 @@ const SearchInput: FC<Props> = ({ handleChange }) => {
         variant="outlined"
         onChange={onTextChange}
         value={value}
+        error={error}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

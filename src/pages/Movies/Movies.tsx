@@ -7,11 +7,16 @@ import Paginatior from '@src/components/Paginator'
 import useMovies from './useMovies'
 
 const Movies: FC = () => {
-  const { handleChange, handleSearch, handlePaginatorChange } = useMovies()
+  const { setSearchValue, submit, handlePaginatorChange, inputError } =
+    useMovies()
 
   return (
     <Container>
-      <Search handleChange={handleChange} onClick={handleSearch} />
+      <Search
+        setSearchValue={setSearchValue}
+        onClick={submit}
+        error={inputError}
+      />
       <MovieList movies={mockedList} />
       <Paginatior onChange={handlePaginatorChange} />
     </Container>

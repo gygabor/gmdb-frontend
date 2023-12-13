@@ -1,34 +1,44 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-type Props = {
-  handleChange: (value: string) => void
-  handleSearch: (event: React.MouseEvent<HTMLButtonElement>) => void
-  handlePaginatorChange: (
-    event: React.ChangeEvent<unknown>,
-    page: number,
-  ) => void
+interface Props {
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>
+  submit: () => void
+  handlePaginatorChange: (event: React.ChangeEvent<unknown>, p: number) => void
+  inputError: boolean
 }
 
 const useMovies = (): Props => {
-  const handleChange = (value: string) => {
-    console.log(value)
-  }
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [page, setPage] = useState<string>('1')
+  const [inputError, setInputError] = useState<boolean>(false)
 
-  const handleSearch = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target)
+  useEffect(() => {
+    console.log('searchValue', searchValue)
+  }, [searchValue])
+
+  const submit = () => {
+    console.log('submit', searchValue.length, inputError)
+    if (searchValue.length <= 3) {
+      setInputError(true)
+      console.log('error', inputError)
+    } else {
+      setInputError(false)
+    }
   }
 
   const handlePaginatorChange = (
     event: React.ChangeEvent<unknown>,
-    page: number,
+    p: number,
   ) => {
+    setPage(p.toString())
     console.log(page)
   }
 
   return {
-    handleChange,
-    handleSearch,
+    setSearchValue,
+    submit,
     handlePaginatorChange,
+    inputError,
   }
 }
 
