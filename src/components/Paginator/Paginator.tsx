@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { PaginatorBox } from './styles'
 
 interface Props {
-  onChange: (event: React.ChangeEvent<unknown>, page: number) => void
+  onChange: (event: React.ChangeEvent<unknown>, p: number) => void
 }
 
 const Paginator: FC<Props> = ({ onChange }) => {
