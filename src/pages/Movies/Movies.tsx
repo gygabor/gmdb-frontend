@@ -1,6 +1,8 @@
 import { FC } from 'react'
-import { Container } from '@mui/material'
-import SearchInput from '@src/components/SearchInput'
+import { Container, Box } from '@mui/material'
+import SearchInput from '@components/SearchInput'
+import MovieList from '@components/MovieList'
+import { mockedList } from './mockedList'
 
 const Movies: FC = () => {
   const handleChange = (value: string) => {
@@ -9,7 +11,12 @@ const Movies: FC = () => {
 
   return (
     <Container>
-      <SearchInput handleChange={handleChange} />
+      <Box>
+        <SearchInput handleChange={handleChange} />
+      </Box>
+      <Container>
+        <MovieList movies={mockedList} />
+      </Container>
     </Container>
   )
 }
