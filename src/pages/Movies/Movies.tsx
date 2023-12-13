@@ -7,8 +7,16 @@ import Paginatior from '@src/components/Paginator'
 import useMovies from './useMovies'
 
 const Movies: FC = () => {
-  const { setSearchValue, submit, handlePaginatorChange, inputError } =
-    useMovies()
+  const {
+    setSearchValue,
+    submit,
+    handlePaginatorChange,
+    inputError,
+    source,
+    movies,
+    totalPages,
+    isPaginatorVisible,
+  } = useMovies()
 
   return (
     <Container>
@@ -17,8 +25,10 @@ const Movies: FC = () => {
         onClick={submit}
         error={inputError}
       />
-      <MovieList movies={mockedList} />
-      <Paginatior onChange={handlePaginatorChange} />
+      <MovieList movies={movies} />
+      {isPaginatorVisible && (
+        <Paginatior onChange={handlePaginatorChange} totalPages={totalPages} />
+      )}
     </Container>
   )
 }

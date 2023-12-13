@@ -1,5 +1,6 @@
 import { GMDB_MOVIES_SEARCH } from '@src/constants/links'
 import axiosClient from '@src/services/axiosClient'
+import { Movie } from '@src/types'
 import { useCallback, useEffect, useState } from 'react'
 
 interface Props {
@@ -7,50 +8,58 @@ interface Props {
   submit: () => void
   handlePaginatorChange: (event: React.ChangeEvent<unknown>, p: number) => void
   inputError: boolean
+  source: 'TMDB' | 'Cache' | null
+  movies: Movie[]
+  totalPages: number
+  isPaginatorVisible: boolean
 }
 
 const useMovies = (): Props => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState<number>(1)
   const [inputError, setInputError] = useState<boolean>(false)
-  const [isFetch, setIsFetch] = useState<boolean>(false)
-  const [response, setResponse] = useState<JSON | null>(null)
+  const [movies, setMovies] = useState<Movie[]>([])
+  const [totalPages, setTotalPages] = useState<number>(1)
+  const [source, setSource] = useState<'TMDB' | 'Cache' | null>(null)
+  const [isPaginatorVisible, setIsPaginatorVisible] = useState<boolean>(false)
 
   const fetchMovies = useCallback(async () => {
     try {
       const res = await axiosClient.get(
         `${GMDB_MOVIES_SEARCH}?query=${searchValue}&page=${page}`,
       )
-      console.log(res.data)
+
+      setMovies(res.data.results)
+      setTotalPages(res.data.total_pages)
+      setSource(res.data.source)
     } catch (err) {
       console.log(err)
     }
   }, [searchValue, page])
 
   useEffect(() => {
-    console.log('isFetch', isFetch)
-    if (isFetch) {
-      fetchMovies()
-      setIsFetch(false)
+    if (totalPages === 1) {
+      setIsPaginatorVisible(false)
+    } else {
+      setIsPaginatorVisible(true)
     }
-  }, [isFetch])
+  }, [totalPages])
 
-  const submit = () => {
+  const submit = async () => {
     if (searchValue.length <= 3) {
-      setIsFetch(false)
       setInputError(true)
     } else {
+      await fetchMovies()
       setInputError(false)
-      setIsFetch(true)
     }
   }
 
-  const handlePaginatorChange = (
+  const handlePaginatorChange = async (
     event: React.ChangeEvent<unknown>,
     p: number,
   ) => {
     setPage(p)
-    console.log(page)
+    await fetchMovies()
   }
 
   return {
@@ -58,6 +67,10 @@ const useMovies = (): Props => {
     submit,
     handlePaginatorChange,
     inputError,
+    source,
+    movies,
+    totalPages,
+    isPaginatorVisible,
   }
 }
 
