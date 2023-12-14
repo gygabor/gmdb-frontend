@@ -53,6 +53,13 @@ const useMovies = (): Props => {
     fetchMovies()
   }, [page])
 
+  useEffect(() => {
+    if (!searchValue) {
+      setMovies([])
+      setTotalPages(1)
+    }
+  }, [searchValue])
+
   const submit = async () => {
     if (searchValue.length <= 3) {
       setInputError(true)

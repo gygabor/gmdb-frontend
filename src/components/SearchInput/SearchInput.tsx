@@ -21,6 +21,7 @@ const SearchInput: FC<Props> = ({ setSearchValue, error }) => {
 
   const handleClick = () => {
     setValue('')
+    setSearchValue('')
     setisClearIcon(!isClearIcon)
   }
 
