@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 
 export const SearchBox = styled(Box)(() => ({
   width: '100%',
@@ -11,4 +11,8 @@ export const SearchBox = styled(Box)(() => ({
 
 export const SearchButton = styled(Button)(() => ({
   marginLeft: '10px',
+}))
+
+export const ErrorMessage = styled(Typography)(() => ({
+  color: '#d32f2f',
 }))
