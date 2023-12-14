@@ -12,6 +12,7 @@ interface Props {
   movies: Movie[]
   totalPages: number
   isPaginatorVisible: boolean
+  isLoading: boolean
 }
 
 const useMovies = (): Props => {
@@ -22,9 +23,11 @@ const useMovies = (): Props => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [source, setSource] = useState<'TMDB' | 'Cache' | null>(null)
   const [isPaginatorVisible, setIsPaginatorVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetchMovies = useCallback(async () => {
     try {
+      setIsLoading(true)
       const res = await axiosClient.get(
         `${GMDB_MOVIES_SEARCH}?query=${searchValue}&page=${page}`,
       )
@@ -32,6 +35,7 @@ const useMovies = (): Props => {
       setMovies(res.data.results)
       setTotalPages(res.data.total_pages)
       setSource(res.data.source)
+      setIsLoading(false)
     } catch (err) {
       console.log(err)
     }
@@ -44,6 +48,17 @@ const useMovies = (): Props => {
       setIsPaginatorVisible(true)
     }
   }, [totalPages])
+
+  useEffect(() => {
+    fetchMovies()
+  }, [page])
+
+  useEffect(() => {
+    if (!searchValue) {
+      setMovies([])
+      setTotalPages(1)
+    }
+  }, [searchValue])
 
   const submit = async () => {
     if (searchValue.length <= 3) {
@@ -59,7 +74,6 @@ const useMovies = (): Props => {
     p: number,
   ) => {
     setPage(p)
-    await fetchMovies()
   }
 
   return {
@@ -71,6 +85,7 @@ const useMovies = (): Props => {
     movies,
     totalPages,
     isPaginatorVisible,
+    isLoading,
   }
 }
 
