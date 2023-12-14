@@ -1,42 +1,31 @@
 import { FC } from 'react'
-import { Box } from '@mui/material'
+import { Container, Skeleton } from '@mui/material'
 import MovieDetails from '@components/MovieDetails'
-
-interface Movie {
-  id: number
-  title: string
-  overview: string
-  release_date: string
-  vote_average: number
-  vote_count: number
-  poster_path: string
-  backdrop_path: string
-  genre_ids: number[]
-  original_language: string
-  original_title: string
-  popularity: number
-  video: boolean
-  adult: boolean
-}
+import { Movie } from '@src/types'
 
 interface Props {
   movies: Movie[]
+  isLoading: boolean
 }
 
-const MovieList: FC<Props> = ({ movies }) => {
+const MovieList: FC<Props> = ({ movies, isLoading }) => {
   return (
-    <Box>
-      {movies.map((movie) => (
-        <MovieDetails
-          key={movie.id}
-          title={movie.title}
-          release_date={movie.release_date}
-          poster_path={movie.poster_path}
-          overview={movie.overview}
-          vote_average={movie.vote_average}
-        />
-      ))}
-    </Box>
+    <Container>
+      {movies.map((movie) =>
+        isLoading ? (
+          <Skeleton variant="rounded" />
+        ) : (
+          <MovieDetails
+            key={movie.id}
+            title={movie.title}
+            release_date={movie.release_date}
+            poster_path={movie.poster_path}
+            overview={movie.overview}
+            vote_average={movie.vote_average}
+          />
+        ),
+      )}
+    </Container>
   )
 }
 
