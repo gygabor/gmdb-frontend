@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material'
 import { FC } from 'react'
 import { IndicatorAvatar, IndicatorBox, IndicatorProgress } from './styles'
 
