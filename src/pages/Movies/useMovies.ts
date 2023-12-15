@@ -8,7 +8,7 @@ interface Props {
   submit: () => void
   handlePaginatorChange: (event: React.ChangeEvent<unknown>, p: number) => void
   inputError: boolean
-  source: 'TMDB' | 'Cache' | null
+  source: 'tmdb' | 'cache' | null
   movies: Movie[]
   totalPages: number
   isPaginatorVisible: boolean
@@ -21,7 +21,7 @@ const useMovies = (): Props => {
   const [inputError, setInputError] = useState<boolean>(false)
   const [movies, setMovies] = useState<Movie[]>([])
   const [totalPages, setTotalPages] = useState<number>(1)
-  const [source, setSource] = useState<'TMDB' | 'Cache' | null>(null)
+  const [source, setSource] = useState<'tmdb' | 'cache' | null>(null)
   const [isPaginatorVisible, setIsPaginatorVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -50,15 +50,18 @@ const useMovies = (): Props => {
   }, [totalPages])
 
   useEffect(() => {
-    fetchMovies()
+    if (searchValue) {
+      fetchMovies()
+    }
   }, [page])
 
   useEffect(() => {
     if (!searchValue) {
       setMovies([])
       setTotalPages(1)
+      setSource(null)
     }
-  }, [searchValue])
+  }, [searchValue, page])
 
   const submit = async () => {
     if (searchValue.length <= 3) {
@@ -70,7 +73,7 @@ const useMovies = (): Props => {
   }
 
   const handlePaginatorChange = async (
-    event: React.ChangeEvent<unknown>,
+    _: React.ChangeEvent<unknown>,
     p: number,
   ) => {
     setPage(p)

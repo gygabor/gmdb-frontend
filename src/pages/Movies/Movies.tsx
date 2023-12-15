@@ -1,9 +1,9 @@
-import { FC, Suspense } from 'react'
+import { FC } from 'react'
 import { Container } from '@mui/material'
 import MovieList from '@components/MovieList'
-import Search from '@src/components/Search'
 import Paginatior from '@src/components/Paginator'
 import useMovies from './useMovies'
+import SearchBar from '@src/components/SearchBar'
 
 const Movies: FC = () => {
   const {
@@ -20,10 +20,12 @@ const Movies: FC = () => {
 
   return (
     <Container>
-      <Search
+      <SearchBar
         setSearchValue={setSearchValue}
-        onClick={submit}
+        submit={submit}
         error={inputError}
+        source={source}
+        isLoading={isLoading}
       />
       <MovieList movies={movies} isLoading={isLoading} />
       {isPaginatorVisible && (
