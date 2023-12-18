@@ -7,17 +7,19 @@ import SourceIndicator from '../SourceIndicator'
 interface Props {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   submit: () => void
-  error: boolean
+  isInputError: boolean
   source: 'tmdb' | 'cache' | null
   isLoading: boolean
+  error: Error | null
 }
 
 const Search: FC<Props> = ({
   setSearchValue,
   submit,
-  error,
+  isInputError,
   source,
   isLoading,
+  error,
 }) => {
   return (
     <Box>
@@ -25,16 +27,16 @@ const Search: FC<Props> = ({
         <SearchBox>
           <SearchInput
             setSearchValue={setSearchValue}
-            error={error}
+            isInputError={isInputError}
             submit={submit}
           />
           <SearchButton variant="contained" onClick={submit}>
             Search
           </SearchButton>
         </SearchBox>
-        <SourceIndicator source={source} isLoading={isLoading} />
+        <SourceIndicator source={source} isLoading={isLoading} error={error} />
       </SearchBarBox>
-      {error && (
+      {isInputError && (
         <ErrorMessage variant="caption" display="block" gutterBottom>
           The title should be at least 3 characters long.
         </ErrorMessage>
