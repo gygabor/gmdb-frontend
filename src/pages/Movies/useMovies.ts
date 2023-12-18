@@ -7,23 +7,25 @@ interface Props {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   submit: () => void
   handlePaginatorChange: (event: React.ChangeEvent<unknown>, p: number) => void
-  inputError: boolean
+  isInputError: boolean
   source: 'tmdb' | 'cache' | null
   movies: Movie[]
   totalPages: number
   isPaginatorVisible: boolean
   isLoading: boolean
+  error: Error | null
 }
 
 const useMovies = (): Props => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState<number>(1)
-  const [inputError, setInputError] = useState<boolean>(false)
+  const [isInputError, setIsInputError] = useState<boolean>(false)
   const [movies, setMovies] = useState<Movie[]>([])
   const [totalPages, setTotalPages] = useState<number>(1)
   const [source, setSource] = useState<'tmdb' | 'cache' | null>(null)
   const [isPaginatorVisible, setIsPaginatorVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const fetchMovies = useCallback(async () => {
     try {
@@ -37,7 +39,12 @@ const useMovies = (): Props => {
       setSource(res.data.source)
       setIsLoading(false)
     } catch (err) {
-      console.log(err)
+      if (err instanceof Error) {
+        setIsLoading(false)
+        setError(err)
+      } else {
+        setError(new Error('An unknown error occurred'))
+      }
     }
   }, [searchValue, page])
 
@@ -60,15 +67,17 @@ const useMovies = (): Props => {
       setMovies([])
       setTotalPages(1)
       setSource(null)
+      setError(null)
     }
-  }, [searchValue, page])
+  }, [searchValue])
 
   const submit = async () => {
+    setError(null)
     if (searchValue.length <= 3) {
-      setInputError(true)
+      setIsInputError(true)
     } else {
       await fetchMovies()
-      setInputError(false)
+      setIsInputError(false)
     }
   }
 
@@ -83,12 +92,13 @@ const useMovies = (): Props => {
     setSearchValue,
     submit,
     handlePaginatorChange,
-    inputError,
+    isInputError,
     source,
     movies,
     totalPages,
     isPaginatorVisible,
     isLoading,
+    error,
   }
 }
 

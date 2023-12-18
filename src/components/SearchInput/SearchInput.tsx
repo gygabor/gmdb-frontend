@@ -7,10 +7,10 @@ import { ClearInputAdornment, SearchInputBox } from './styles'
 interface Props {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   submit: () => void
-  error: boolean
+  isInputError: boolean
 }
 
-const SearchInput: FC<Props> = ({ setSearchValue, submit, error }) => {
+const SearchInput: FC<Props> = ({ setSearchValue, submit, isInputError }) => {
   const [isClearIcon, setisClearIcon] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
@@ -40,7 +40,7 @@ const SearchInput: FC<Props> = ({ setSearchValue, submit, error }) => {
         onChange={onTextChange}
         onKeyUp={handleKeyUp}
         value={value}
-        error={error}
+        error={isInputError}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

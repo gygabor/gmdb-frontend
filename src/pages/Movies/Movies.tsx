@@ -10,12 +10,13 @@ const Movies: FC = () => {
     setSearchValue,
     submit,
     handlePaginatorChange,
-    inputError,
+    isInputError,
     source,
     movies,
     totalPages,
     isPaginatorVisible,
     isLoading,
+    error,
   } = useMovies()
 
   return (
@@ -23,9 +24,10 @@ const Movies: FC = () => {
       <SearchBar
         setSearchValue={setSearchValue}
         submit={submit}
-        error={inputError}
+        isInputError={isInputError}
         source={source}
         isLoading={isLoading}
+        error={error}
       />
       <MovieList movies={movies} isLoading={isLoading} />
       {isPaginatorVisible && (

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Avatar, CircularProgress } from '@mui/material'
+import { Box, Avatar, CircularProgress, Typography } from '@mui/material'
 
 export const IndicatorBox = styled(Box)(() => ({
   position: 'relative',
@@ -22,3 +22,19 @@ export const IndicatorProgress = styled(CircularProgress)<IndicatorProps>(
     zIndex: 1,
   }),
 )
+
+export const ErrorText = styled(Typography)(() => ({
+  color: '#d32f2f',
+  marginRight: '10px',
+}))
+
+export const ErrorAvatar = styled(Avatar)(() => ({
+  backgroundColor: '#d32f2f',
+}))
+
+export const ErrorBox = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  flexWrap: 'wrap',
+}))

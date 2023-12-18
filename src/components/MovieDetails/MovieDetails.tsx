@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { TMDB_POSTER_BASE_URL } from '@src/constants/links'
-import { ContentBox } from './styles'
+import { ContentBox, DetailsHeader } from './styles'
 
 interface Props {
   title: string
@@ -25,7 +25,7 @@ const MovieDetails: FC<Props> = ({
 }) => {
   return (
     <Card variant="outlined">
-      <CardHeader
+      <DetailsHeader
         title={title}
         titleTypographyProps={{
           variant: 'subtitle1',

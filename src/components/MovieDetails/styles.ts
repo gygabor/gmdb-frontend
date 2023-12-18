@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box } from '@mui/material'
+import { Box, CardHeader } from '@mui/material'
 
 export const ContentBox = styled(Box)(() => ({
   width: '100%',
@@ -7,4 +7,8 @@ export const ContentBox = styled(Box)(() => ({
   alignItems: 'baseline',
   justifyContent: 'space-between',
   flexWrap: 'wrap',
+}))
+
+export const DetailsHeader = styled(CardHeader)(() => ({
+  fontWeight: '500',
 }))
