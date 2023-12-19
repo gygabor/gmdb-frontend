@@ -8,7 +8,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Installing
 
-To install F+R Back-End, follow these steps:
+To install gmdb-frontend, follow these steps:
 
 ```bash
 git clone https://github.com/gygabor/gmdb-frontend.git
