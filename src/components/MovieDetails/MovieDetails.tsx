@@ -1,12 +1,5 @@
 import { FC } from 'react'
-import {
-  Card,
-  CardMedia,
-  CardHeader,
-  Rating,
-  CardContent,
-  Typography,
-} from '@mui/material'
+import { Card, CardMedia, Rating, CardContent, Typography } from '@mui/material'
 import { TMDB_POSTER_BASE_URL } from '@src/constants/links'
 import { ContentBox, DetailsHeader } from './styles'
 

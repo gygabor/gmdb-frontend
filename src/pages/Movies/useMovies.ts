@@ -7,25 +7,24 @@ interface Props {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   submit: () => void
   handlePaginatorChange: (event: React.ChangeEvent<unknown>, p: number) => void
-  isInputError: boolean
   source: 'tmdb' | 'cache' | null
   movies: Movie[]
   totalPages: number
-  isPaginatorVisible: boolean
   isLoading: boolean
   error: Error | null
+  isButtonDisabled: boolean
 }
 
 const useMovies = (): Props => {
+  const textLength = 3
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState<number>(1)
-  const [isInputError, setIsInputError] = useState<boolean>(false)
   const [movies, setMovies] = useState<Movie[]>([])
   const [totalPages, setTotalPages] = useState<number>(1)
   const [source, setSource] = useState<'tmdb' | 'cache' | null>(null)
-  const [isPaginatorVisible, setIsPaginatorVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
 
   const fetchMovies = useCallback(async () => {
     try {
@@ -49,14 +48,6 @@ const useMovies = (): Props => {
   }, [searchValue, page])
 
   useEffect(() => {
-    if (totalPages === 1) {
-      setIsPaginatorVisible(false)
-    } else {
-      setIsPaginatorVisible(true)
-    }
-  }, [totalPages])
-
-  useEffect(() => {
     if (searchValue) {
       fetchMovies()
     }
@@ -69,16 +60,17 @@ const useMovies = (): Props => {
       setSource(null)
       setError(null)
     }
+
+    if (searchValue.length >= textLength) {
+      setIsButtonDisabled(false)
+    } else {
+      setIsButtonDisabled(true)
+    }
   }, [searchValue])
 
   const submit = async () => {
     setError(null)
-    if (searchValue.length <= 3) {
-      setIsInputError(true)
-    } else {
-      await fetchMovies()
-      setIsInputError(false)
-    }
+    await fetchMovies()
   }
 
   const handlePaginatorChange = async (
@@ -92,13 +84,12 @@ const useMovies = (): Props => {
     setSearchValue,
     submit,
     handlePaginatorChange,
-    isInputError,
     source,
     movies,
     totalPages,
-    isPaginatorVisible,
     isLoading,
     error,
+    isButtonDisabled,
   }
 }
 

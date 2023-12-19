@@ -7,10 +7,9 @@ import { ClearInputAdornment, SearchInputBox } from './styles'
 interface Props {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   submit: () => void
-  isInputError: boolean
 }
 
-const SearchInput: FC<Props> = ({ setSearchValue, submit, isInputError }) => {
+const SearchInput: FC<Props> = ({ setSearchValue, submit }) => {
   const [isClearIcon, setisClearIcon] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
@@ -37,10 +36,10 @@ const SearchInput: FC<Props> = ({ setSearchValue, submit, isInputError }) => {
       <TextField
         size="small"
         variant="outlined"
+        placeholder="Search for a movie by title..."
         onChange={onTextChange}
         onKeyUp={handleKeyUp}
         value={value}
-        error={isInputError}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
