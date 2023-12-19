@@ -17,17 +17,17 @@ interface Props {
 const SourceIndicator: FC<Props> = ({ source, isLoading, error }) => {
   return (
     <IndicatorBox>
-      {error ? (
+      {error && (
         <ErrorBox>
           <ErrorText variant="body1">{error.message}</ErrorText>
           <ErrorAvatar>E</ErrorAvatar>
         </ErrorBox>
-      ) : null}
-      {source ? (
+      )}
+      {source && (
         <IndicatorAvatar source={source}>
           {source.charAt(0).toUpperCase()}
         </IndicatorAvatar>
-      ) : null}
+      )}
       {isLoading && <IndicatorProgress size={46} source={source} />}
     </IndicatorBox>
   )
