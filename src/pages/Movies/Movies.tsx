@@ -1,22 +1,21 @@
 import { FC } from 'react'
 import { Container } from '@mui/material'
 import MovieList from '@components/MovieList'
-import Paginatior from '@src/components/Paginator'
+import Paginatior from '@components/Paginator'
 import useMovies from './useMovies'
-import SearchBar from '@src/components/SearchBar'
+import SearchBar from '@components/SearchBar'
 
 const Movies: FC = () => {
   const {
     setSearchValue,
     submit,
     handlePaginatorChange,
-    isInputError,
     source,
     movies,
     totalPages,
-    isPaginatorVisible,
     isLoading,
     error,
+    isButtonDisabled,
   } = useMovies()
 
   return (
@@ -24,13 +23,13 @@ const Movies: FC = () => {
       <SearchBar
         setSearchValue={setSearchValue}
         submit={submit}
-        isInputError={isInputError}
         source={source}
         isLoading={isLoading}
         error={error}
+        isButtonDisabled={isButtonDisabled}
       />
       <MovieList movies={movies} isLoading={isLoading} />
-      {isPaginatorVisible && (
+      {totalPages > 1 && (
         <Paginatior onChange={handlePaginatorChange} totalPages={totalPages} />
       )}
     </Container>
